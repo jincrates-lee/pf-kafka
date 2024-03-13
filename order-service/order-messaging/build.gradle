@@ -1,0 +1,7 @@
+dependencies {
+  implementation("org.springframework.boot:spring-boot-starter")
+  implementation("org.springframework.kafka:spring-kafka:${kafkaVersion}")
+
+  compileOnly project(":infrastructure")
+  compileOnly project(":order-service:order-domain")
+}

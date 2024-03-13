@@ -1,0 +1,15 @@
+pluginManagement {
+  plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+  }
+}
+
+rootProject.name = 'pf-kafka'
+include 'infrastructure'
+include 'order-service'
+include 'order-service:order-domain'
+findProject(':order-service:order-domain')?.name = 'order-domain'
+include 'order-service:order-messaging'
+findProject(':order-service:order-messaging')?.name = 'order-messaging'
+
