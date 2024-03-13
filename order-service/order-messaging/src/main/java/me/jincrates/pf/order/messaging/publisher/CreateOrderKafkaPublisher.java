@@ -2,7 +2,8 @@ package me.jincrates.pf.order.messaging.publisher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.jincrates.kafka.producer.KafkaProducer;
+import me.jincrates.pf.kafka.domain.TopicMessage;
+import me.jincrates.pf.kafka.producer.KafkaProducer;
 import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.service.port.output.OrderCreatedEventPublisher;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
 
-    private final KafkaProducer kafkaProducer;
+    private final KafkaProducer<OrderCreatedEvent> kafkaProducer;
 
     private String topic = "create-order-topic";
 
@@ -22,7 +23,13 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
         log.info("Received OrderCreatedEvent for orderId: {}", orderId);
 
         try {
-            kafkaProducer.send(topic, orderId, event);
+            TopicMessage<OrderCreatedEvent> message = TopicMessage.<OrderCreatedEvent>builder()
+                .id(orderId)
+                .action("ORDER_COMPLETED")
+                .actionValue("주문 생성됨")
+                .data(event)
+                .build();
+            kafkaProducer.send(topic, orderId, message);
         } catch (Exception ex) {
             log.error("주문생성 카프카 메시지 전송 실패 orderId: {}", orderId);
         }

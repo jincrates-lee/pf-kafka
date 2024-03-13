@@ -12,4 +12,8 @@ include 'order-service:order-domain'
 findProject(':order-service:order-domain')?.name = 'order-domain'
 include 'order-service:order-messaging'
 findProject(':order-service:order-messaging')?.name = 'order-messaging'
+include 'order-service:order-api'
+findProject(':order-service:order-api')?.name = 'order-api'
+include 'order-service:order-dataaccess'
+findProject(':order-service:order-dataaccess')?.name = 'order-dataaccess'
 

@@ -2,7 +2,8 @@ package me.jincrates.pf.order.messaging.publisher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.jincrates.kafka.producer.KafkaProducer;
+import me.jincrates.pf.kafka.domain.TopicMessage;
+import me.jincrates.pf.kafka.producer.KafkaProducer;
 import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
 import me.jincrates.pf.order.domain.service.port.output.OrderCancelledEventPublisher;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublisher {
 
-    private final KafkaProducer kafkaProducer;
+    private final KafkaProducer<OrderCancelledEvent> kafkaProducer;
 
     private String topic = "cancel-order-topic";
 
@@ -22,7 +23,13 @@ public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublishe
         log.info("Received OrderCancelledEvent for orderId: {}", orderId);
 
         try {
-            kafkaProducer.send(topic, orderId, event);
+            TopicMessage<OrderCancelledEvent> message = TopicMessage.<OrderCancelledEvent>builder()
+                .id(orderId)
+                .action("ORDER_CANCELED")
+                .actionValue("주문 취소됨")
+                .data(event)
+                .build();
+            kafkaProducer.send(topic, orderId, message);
         } catch (Exception ex) {
             log.error("주문취소 카프카 메시지 전송 실패 orderId: {}", orderId);
         }
