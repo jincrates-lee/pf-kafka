@@ -1,7 +1,9 @@
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
 
   compileOnly("org.springframework:spring-context")
   compileOnly("org.springframework:spring-tx")
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

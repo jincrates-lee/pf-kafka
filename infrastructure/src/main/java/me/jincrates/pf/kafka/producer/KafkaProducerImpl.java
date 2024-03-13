@@ -1,5 +1,8 @@
 package me.jincrates.pf.kafka.producer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +22,12 @@ public class KafkaProducerImpl<T> implements KafkaProducer<T> {
     public void send(String topic, String key, TopicMessage<T> message) {
         log.info("Sending to topic = {}, from message: {}", topic, message);
         try {
-            kafkaTemplate.send(topic, key, message);
-        } catch (KafkaException ex) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            String messageStr = objectMapper.writeValueAsString(message);
+
+            kafkaTemplate.send(topic, key, messageStr);
+        } catch (KafkaException | JsonProcessingException ex) {
             log.error("Error on kafka producer with key: {}, message: {}, and exception: {}", key,
                 message, ex.getMessage());
             throw new RuntimeException("카프카 메시지 발송 오류");

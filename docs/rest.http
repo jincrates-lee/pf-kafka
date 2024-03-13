@@ -1,0 +1,10 @@
+### 주문 생성
+POST http://localhost:9090/api/v1/orders
+Content-Type: application/json
+
+{
+  "price": "{{$random.integer}}"
+}
+
+### 주문 취소
+PUT http://localhost:9090/api/v1/orders/cb874c72-6898-4f8c-9428-a4560b08552e/cancel

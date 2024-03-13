@@ -31,7 +31,7 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
                 .build();
             kafkaProducer.send(topic, orderId, message);
         } catch (Exception ex) {
-            log.error("주문생성 카프카 메시지 전송 실패 orderId: {}", orderId);
+            log.error("주문 생성 카프카 메시지 전송 실패 orderId: {}", orderId);
         }
     }
 }

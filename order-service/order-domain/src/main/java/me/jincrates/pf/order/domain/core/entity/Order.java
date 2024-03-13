@@ -11,7 +11,7 @@ import me.jincrates.pf.order.domain.core.valueobject.OrderStatus;
 @Getter
 public class Order {
 
-    private final OrderId id;
+    private OrderId id;
     private OrderStatus orderStatus;
     private int amount;
 
@@ -22,12 +22,9 @@ public class Order {
         this.amount = amount;
     }
 
-    public Order initialize() {
-        return new Order(
-            new OrderId(UUID.randomUUID()),
-            OrderStatus.PENDING,
-            this.amount
-        );
+    public void initialize() {
+        this.id = new OrderId(UUID.randomUUID());
+        this.orderStatus = OrderStatus.PENDING;
     }
 
     public void cancel() {
