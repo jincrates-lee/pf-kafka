@@ -15,7 +15,7 @@ public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublishe
 
     private final KafkaProducer<OrderCancelledEvent> kafkaProducer;
 
-    private String topic = "cancel-order-topic";
+    private String topic = "commerce.order";
 
     @Override
     public void publish(OrderCancelledEvent event) {

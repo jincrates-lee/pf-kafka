@@ -23,14 +23,16 @@ public class OrderServiceHelper {
     @Transactional
     public OrderCreatedEvent persistOrder(Order order) {
         OrderCreatedEvent event = orderDomainService.createOrder(order);
-        saveOrder(order);
+        saveOrder(event.getOrder());
         return event;
     }
 
     @Transactional
     public OrderCancelledEvent cancelOrder(String orderId) {
         Order order = findOrder(orderId);
-        return orderDomainService.cancelOrder(order);
+        OrderCancelledEvent event = orderDomainService.cancelOrder(order);
+        updateOrder(event.getOrder());
+        return event;
     }
 
     private void saveOrder(Order order) {
@@ -48,5 +50,14 @@ public class OrderServiceHelper {
                 log.info("주문을 찾을 수 없습니다! id: {}", orderId);
                 return new RuntimeException("주문을 찾을 수 없습니다!");
             });
+    }
+
+    private void updateOrder(Order order) {
+        Order result = orderRepository.save(order);
+        if (result == null) {
+            log.warn("주문을 수정할 수 없습니다! orderId: {}", order.getId().getValue());
+            throw new RuntimeException("주문을 저장할 수 없습니다!");
+        }
+        log.info("주문이 수정되었습니다. orderId: {}", result.getId().getValue());
     }
 }

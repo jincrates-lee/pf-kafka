@@ -15,7 +15,7 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
 
     private final KafkaProducer<OrderCreatedEvent> kafkaProducer;
 
-    private String topic = "create-order-topic";
+    private String topic = "commerce.order";
 
     @Override
     public void publish(OrderCreatedEvent event) {
