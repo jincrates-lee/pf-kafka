@@ -30,7 +30,7 @@ public class KafkaProducerImpl<T> implements KafkaProducer<T> {
         } catch (KafkaException | JsonProcessingException ex) {
             log.error("Error on kafka producer with key: {}, message: {}, and exception: {}", key,
                 message, ex.getMessage());
-            throw new RuntimeException("카프카 메시지 발송 오류");
+            throw new RuntimeException("카프카 메시지 발송 오류! - 전송 실패 오류 레코드 등록");
         }
     }
 

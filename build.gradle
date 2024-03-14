@@ -1,7 +1,8 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' apply(false)
-	id 'io.spring.dependency-management'
+  id 'java'
+  id 'org.springframework.boot' apply(false)
+  id 'io.spring.dependency-management'
+  id 'com.savvasdalkitsis.module-dependency-graph' version "${moduleDependencyGraph}"
 }
 
 allprojects {
@@ -32,6 +33,8 @@ subprojects {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     // slf4j
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    // mockito
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
   }
 
   bootJar.enabled = false
