@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.order.domain.core.entity.Order;
 import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
+import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,11 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     public OrderCancelledEvent cancelOrder(Order order) {
         order.cancel();
         return new OrderCancelledEvent(order, LocalDateTime.now());
+    }
+
+    @Override
+    public OrderCompletedEvent completeOrder(Order order) {
+        order.complete();
+        return new OrderCompletedEvent(order, LocalDateTime.now());
     }
 }

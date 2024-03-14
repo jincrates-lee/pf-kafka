@@ -27,9 +27,19 @@ public class Order {
         this.orderStatus = OrderStatus.PENDING;
     }
 
+    public void complete() {
+        if (orderStatus != OrderStatus.PENDING) {
+            log.warn("주문을 완료할 수 없는 상태입니다! id: {}, status: {}", this.id.getValue().toString(),
+                orderStatus);
+            throw new RuntimeException("주문을 완료할 수 없는 상태입니다!");
+        }
+        this.orderStatus = OrderStatus.COMPLETED;
+    }
+
     public void cancel() {
         if (!(orderStatus == OrderStatus.PENDING || orderStatus == OrderStatus.COMPLETED)) {
-            log.warn("주문을 취소할 수 없는 상태입니다! status: {}", orderStatus);
+            log.warn("주문을 취소할 수 없는 상태입니다! id: {}, status: {}", this.id.getValue().toString(),
+                orderStatus);
             throw new RuntimeException("주문을 취소할 수 없는 상태입니다!");
         }
         orderStatus = OrderStatus.CANCELLED;

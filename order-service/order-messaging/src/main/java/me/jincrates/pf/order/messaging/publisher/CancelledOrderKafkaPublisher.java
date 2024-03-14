@@ -31,7 +31,7 @@ public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublishe
                 .build();
             kafkaProducer.send(topic, orderId, message);
         } catch (Exception ex) {
-            log.error("주문취소 카프카 메시지 전송 실패 orderId: {}", orderId);
+            log.error("주문 취소 카프카 메시지 전송 실패 orderId: {}", orderId);
         }
     }
 }

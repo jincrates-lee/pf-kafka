@@ -25,7 +25,7 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
         try {
             TopicMessage<OrderCreatedEvent> message = TopicMessage.<OrderCreatedEvent>builder()
                 .id(orderId)
-                .action("ORDER_COMPLETED")
+                .action("ORDER_CREATED")
                 .actionValue("주문 생성됨")
                 .data(event)
                 .build();

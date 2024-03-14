@@ -2,6 +2,7 @@ dependencies {
   implementation project(":infrastructure")
   implementation project(":order-service:order-domain")
 
-  implementation("org.springframework.boot:spring-boot-starter")
   implementation("org.springframework.kafka:spring-kafka:${kafkaVersion}")
+  implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+  implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatabindVersion}"
 }
