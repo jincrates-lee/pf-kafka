@@ -8,9 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.consumer.KafkaConsumer;
 import me.jincrates.pf.kafka.domain.TopicMessage;
 import me.jincrates.pf.order.domain.core.event.OrderAction;
-import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
-import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
-import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderEvent;
 import me.jincrates.pf.order.domain.service.port.input.CommerceOrderResponseListener;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -55,30 +52,15 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
     }
 
     private void processOrderResponse(String action, OrderEvent event) {
-        OrderAction orderAction = null;
+        OrderAction orderAction;
         try {
             orderAction = OrderAction.valueOf(action);
+            log.info("{} 처리 중, 주문 ID: {}", orderAction.getValue(),
+                event.getOrder().getId().getValue().toString());
+            orderAction.process(event, commerceOrderResponseListener);
         } catch (IllegalArgumentException ex) {
             throw new RuntimeException("잘못된 액션입니다. action: " + action
-                + ", orderId: " + event.getOrder().getId().getValue().toString());
-        }
-
-        switch (orderAction) {
-            case ORDER_CREATED:
-                log.info("대기 중인 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
-                commerceOrderResponseListener.orderCreated(
-                    new OrderCreatedEvent(event.getOrder(), event.getCreatedAt()));
-                break;
-            case ORDER_COMPLETED:
-                log.info("완료된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
-                commerceOrderResponseListener.orderCompleted(
-                    new OrderCompletedEvent(event.getOrder(), event.getCreatedAt()));
-                break;
-            case ORDER_CANCELLED:
-                log.info("취소된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
-                commerceOrderResponseListener.orderCancelled(
-                    new OrderCancelledEvent(event.getOrder(), event.getCreatedAt()));
-                break;
+                + ", orderId: " + event.getOrder().getId().getValue().toString(), ex);
         }
     }
 }
