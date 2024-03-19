@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaProducerImpl<T> implements KafkaProducer<T> {
+public class KafkaProducerImpl<T> implements KafkaProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
-    public void send(String topic, String key, TopicMessage<T> message) {
+    public void send(String topic, String key, TopicMessage message) {
         log.info("Sending to topic = {}, from message: {}", topic, message);
         try {
             ObjectMapper objectMapper = new ObjectMapper();

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
 
-    private final KafkaProducer<OrderCreatedEvent> kafkaProducer;
+    private final KafkaProducer kafkaProducer;
 
     private String topic = "commerce.order";
 
@@ -24,7 +24,7 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
         log.info("Received OrderCreatedEvent for orderId: {}", orderId);
 
         try {
-            TopicMessage<OrderCreatedEvent> message = TopicMessage.<OrderCreatedEvent>builder()
+            TopicMessage message = TopicMessage.builder()
                 .id(orderId)
                 .action(OrderAction.ORDER_CREATED.name())
                 .actionValue(OrderAction.ORDER_CREATED.getValue())

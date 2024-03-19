@@ -43,9 +43,7 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
 
         messages.forEach(message -> {
             try {
-                TopicMessage<Object> topicMessage = objectMapper.readValue(message,
-                    TopicMessage.class);
-
+                TopicMessage topicMessage = objectMapper.readValue(message, TopicMessage.class);
                 OrderEvent event = objectMapper.convertValue(topicMessage.getData(),
                     OrderEvent.class);
                 processOrderResponse(topicMessage.getAction(), event);

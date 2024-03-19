@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublisher {
 
-    private final KafkaProducer<OrderCancelledEvent> kafkaProducer;
+    private final KafkaProducer kafkaProducer;
 
     private String topic = "commerce.order";
 
@@ -24,7 +24,7 @@ public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublishe
         log.info("Received OrderCancelledEvent for orderId: {}", orderId);
 
         try {
-            TopicMessage<OrderCancelledEvent> message = TopicMessage.<OrderCancelledEvent>builder()
+            TopicMessage message = TopicMessage.builder()
                 .id(orderId)
                 .action(OrderAction.ORDER_CANCELLED.name())
                 .actionValue(OrderAction.ORDER_CANCELLED.getValue())
