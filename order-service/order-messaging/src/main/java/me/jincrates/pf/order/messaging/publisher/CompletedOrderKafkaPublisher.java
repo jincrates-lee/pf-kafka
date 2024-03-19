@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.domain.TopicMessage;
 import me.jincrates.pf.kafka.producer.KafkaProducer;
+import me.jincrates.pf.order.domain.core.event.OrderAction;
 import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
 import me.jincrates.pf.order.domain.service.port.output.OrderCompletedEventPublisher;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class CompletedOrderKafkaPublisher implements OrderCompletedEventPublishe
         try {
             TopicMessage<OrderCompletedEvent> message = TopicMessage.<OrderCompletedEvent>builder()
                 .id(orderId)
-                .action("ORDER_COMPLETED")
-                .actionValue("주문 완료됨")
+                .action(OrderAction.ORDER_COMPLETED.name())
+                .actionValue(OrderAction.ORDER_COMPLETED.getValue())
                 .data(event)
                 .build();
             kafkaProducer.send(topic, orderId, message);

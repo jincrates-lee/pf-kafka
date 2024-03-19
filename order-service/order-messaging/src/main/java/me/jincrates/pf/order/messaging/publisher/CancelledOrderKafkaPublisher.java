@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.domain.TopicMessage;
 import me.jincrates.pf.kafka.producer.KafkaProducer;
+import me.jincrates.pf.order.domain.core.event.OrderAction;
 import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
 import me.jincrates.pf.order.domain.service.port.output.OrderCancelledEventPublisher;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class CancelledOrderKafkaPublisher implements OrderCancelledEventPublishe
         try {
             TopicMessage<OrderCancelledEvent> message = TopicMessage.<OrderCancelledEvent>builder()
                 .id(orderId)
-                .action("ORDER_CANCELED")
-                .actionValue("주문 취소됨")
+                .action(OrderAction.ORDER_CANCELLED.name())
+                .actionValue(OrderAction.ORDER_CANCELLED.getValue())
                 .data(event)
                 .build();
             kafkaProducer.send(topic, orderId, message);
