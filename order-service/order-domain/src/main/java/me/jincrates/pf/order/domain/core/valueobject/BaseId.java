@@ -1,10 +1,12 @@
 package me.jincrates.pf.order.domain.core.valueobject;
 
 import java.util.Objects;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public abstract class BaseId<T> {
 
-    private final T value;
+    private T value;
 
     protected BaseId(T value) {
         this.value = value;

@@ -3,12 +3,14 @@ package me.jincrates.pf.order.domain.core.entity;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.order.domain.core.valueobject.OrderId;
 import me.jincrates.pf.order.domain.core.valueobject.OrderStatus;
 
 @Slf4j
 @Getter
+@NoArgsConstructor
 public class Order {
 
     private OrderId id;
