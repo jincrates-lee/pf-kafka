@@ -35,6 +35,15 @@ public class OrderServiceHelper {
         return event;
     }
 
+    @Transactional(readOnly = true)
+    public Order findOrder(String orderId) {
+        return orderRepository.findById(new OrderId(UUID.fromString(orderId)))
+            .orElseThrow(() -> {
+                log.info("주문을 찾을 수 없습니다! id: {}", orderId);
+                return new RuntimeException("주문을 찾을 수 없습니다!");
+            });
+    }
+
     private void saveOrder(Order order) {
         Order result = orderRepository.save(order);
         if (result == null) {
@@ -44,13 +53,6 @@ public class OrderServiceHelper {
         log.info("주문이 저장되었습니다. orderId: {}", result.getId().getValue());
     }
 
-    private Order findOrder(String orderId) {
-        return orderRepository.findById(new OrderId(UUID.fromString(orderId)))
-            .orElseThrow(() -> {
-                log.info("주문을 찾을 수 없습니다! id: {}", orderId);
-                return new RuntimeException("주문을 찾을 수 없습니다!");
-            });
-    }
 
     private void updateOrder(Order order) {
         Order result = orderRepository.save(order);

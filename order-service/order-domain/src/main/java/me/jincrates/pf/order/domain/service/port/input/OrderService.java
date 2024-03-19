@@ -8,4 +8,7 @@ public interface OrderService {
     OrderResponse createOrder(OrderRequest request);
 
     void cancelOrder(String orderId);
+
+    OrderResponse findOrder(String orderId);
+
 }

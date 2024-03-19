@@ -10,7 +10,7 @@ import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.core.valueobject.OrderId;
-import me.jincrates.pf.order.domain.service.port.input.CommerceOrderResponseListener;
+import me.jincrates.pf.order.domain.service.port.input.OrderEventListener;
 import me.jincrates.pf.order.domain.service.port.output.OrderRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CommerceOrderResponseListenerImpl implements CommerceOrderResponseListener {
+public class OrderEventListenerImpl implements OrderEventListener {
 
     private final OrderDomainService orderDomainService;
     private final OrderRepository orderRepository;

@@ -9,7 +9,7 @@ import me.jincrates.pf.kafka.consumer.KafkaConsumer;
 import me.jincrates.pf.kafka.domain.TopicMessage;
 import me.jincrates.pf.order.domain.core.event.OrderAction;
 import me.jincrates.pf.order.domain.core.event.OrderEvent;
-import me.jincrates.pf.order.domain.service.port.input.CommerceOrderResponseListener;
+import me.jincrates.pf.order.domain.service.port.input.OrderEventListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderMessageKafkaListener implements KafkaConsumer<String> {
 
-    private final CommerceOrderResponseListener commerceOrderResponseListener;
+    private final OrderEventListener orderEventListener;
 
     @Override
     @KafkaListener(topics = "commerce.order", groupId = "commerce-order-group-id")
@@ -57,7 +57,7 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
             orderAction = OrderAction.valueOf(action);
             log.info("{} 처리 중, 주문 ID: {}", orderAction.getValue(),
                 event.getOrder().getId().getValue().toString());
-            orderAction.process(event, commerceOrderResponseListener);
+            orderAction.process(event, orderEventListener);
         } catch (IllegalArgumentException ex) {
             throw new RuntimeException("잘못된 액션입니다. action: " + action
                 + ", orderId: " + event.getOrder().getId().getValue().toString(), ex);

@@ -4,7 +4,7 @@ import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 
-public interface CommerceOrderResponseListener {
+public interface OrderEventListener {
 
     void orderCreated(OrderCreatedEvent event);
 

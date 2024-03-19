@@ -42,10 +42,16 @@ public class OrderServiceImplV2 implements OrderService {
     @Override
     @Transactional
     public void cancelOrder(String orderId) {
-        Order order = findOrder(orderId);
+        Order order = findOrderById(orderId);
         OrderCancelledEvent event = orderDomainService.cancelOrder(order);
         updateOrder(event.getOrder());
         domainEventPublisher.publish(event);
+    }
+
+    @Override
+    public OrderResponse findOrder(String orderId) {
+        Order order = findOrderById(orderId);
+        return orderMapper.toResponse(order);
     }
 
     private void saveOrder(Order order) {
@@ -57,7 +63,7 @@ public class OrderServiceImplV2 implements OrderService {
         log.info("주문이 저장되었습니다. orderId: {}", result.getId().getValue());
     }
 
-    private Order findOrder(String orderId) {
+    private Order findOrderById(String orderId) {
         return orderRepository.findById(new OrderId(UUID.fromString(orderId)))
             .orElseThrow(() -> {
                 log.info("주문을 찾을 수 없습니다! id: {}", orderId);

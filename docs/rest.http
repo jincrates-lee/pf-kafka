@@ -6,8 +6,11 @@ Content-Type: application/json
   "price": "{{$random.integer}}"
 }
 
+### 주문 조회
+@orderId = e5c31a9f-b6a7-4a11-b1e2-5cec3988e65d
+GET http://localhost:9090/api/v1/orders/{{orderId}}
+
 ### 주문 취소
-@orderId = c31f9049-c6c2-4fa6-96f5-11aca0d0ac1a
 PUT http://localhost:9090/api/v1/orders/{{orderId}}/cancel
 
 

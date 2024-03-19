@@ -36,4 +36,10 @@ public class OrderServiceImpl implements OrderService {
         OrderCancelledEvent event = orderServiceHelper.cancelOrder(orderId);
         orderCancelledEventPublisher.publish(event);
     }
+
+    @Override
+    public OrderResponse findOrder(String orderId) {
+        Order order = orderServiceHelper.findOrder(orderId);
+        return orderMapper.toResponse(order);
+    }
 }
