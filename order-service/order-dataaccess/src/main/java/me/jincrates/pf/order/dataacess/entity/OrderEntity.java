@@ -26,4 +26,5 @@ public class OrderEntity extends BaseEntity {
     private UUID id;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+    private int amount;
 }

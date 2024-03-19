@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.consumer.KafkaConsumer;
 import me.jincrates.pf.kafka.domain.TopicMessage;
-import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
+import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderEvent;
 import me.jincrates.pf.order.domain.service.port.input.CommerceOrderResponseListener;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -57,8 +57,8 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
         switch (action) {
             case "ORDER_CREATED":
                 log.info("대기 중인 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
-                commerceOrderResponseListener.orderCompleted(
-                    new OrderCompletedEvent(event.getOrder(), event.getCreatedAt()));
+                commerceOrderResponseListener.orderCreated(
+                    new OrderCreatedEvent(event.getOrder(), event.getCreatedAt()));
                 break;
             case "ORDER_COMPLETED":
                 log.info("완료된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());

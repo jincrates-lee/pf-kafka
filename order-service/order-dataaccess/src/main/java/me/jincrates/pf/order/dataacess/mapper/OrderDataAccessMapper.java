@@ -12,6 +12,7 @@ public class OrderDataAccessMapper {
         return OrderEntity.builder()
             .id(domain.getId().getValue())
             .orderStatus(domain.getOrderStatus())
+            .amount(domain.getAmount())
             .build();
     }
 
@@ -19,6 +20,7 @@ public class OrderDataAccessMapper {
         return Order.builder()
             .id(new OrderId(entity.getId()))
             .orderStatus(entity.getOrderStatus())
+            .amount(entity.getAmount())
             .build();
     }
 }

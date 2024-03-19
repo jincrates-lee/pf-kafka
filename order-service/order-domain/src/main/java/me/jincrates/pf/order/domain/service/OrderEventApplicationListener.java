@@ -3,8 +3,10 @@ package me.jincrates.pf.order.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
+import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.service.port.output.OrderCancelledEventPublisher;
+import me.jincrates.pf.order.domain.service.port.output.OrderCompletedEventPublisher;
 import me.jincrates.pf.order.domain.service.port.output.OrderCreatedEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -17,6 +19,7 @@ public class OrderEventApplicationListener {
 
     private final OrderCreatedEventPublisher orderCreatedEventPublisher;
     private final OrderCancelledEventPublisher orderCancelledEventPublisher;
+    private final OrderCompletedEventPublisher orderCompletedEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void process(OrderCreatedEvent event) {
@@ -26,5 +29,10 @@ public class OrderEventApplicationListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void process(OrderCancelledEvent event) {
         orderCancelledEventPublisher.publish(event);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void process(OrderCompletedEvent event) {
+        orderCompletedEventPublisher.publish(event);
     }
 }
