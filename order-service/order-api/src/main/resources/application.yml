@@ -10,4 +10,7 @@ spring:
       - infrastructure.yml
       - order-dataaccess.yml
 
+logging:
+  level:
+    org.apache.kafka: off
 

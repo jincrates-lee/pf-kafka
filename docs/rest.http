@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 주문 취소
-@orderId = e4f052b8-62e5-4b22-98cb-943903ca0794
+@orderId = c31f9049-c6c2-4fa6-96f5-11aca0d0ac1a
 PUT http://localhost:9090/api/v1/orders/{{orderId}}/cancel
 
 

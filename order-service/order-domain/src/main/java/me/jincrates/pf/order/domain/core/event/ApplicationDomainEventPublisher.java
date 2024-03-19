@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationDomainEventPublisher implements
     ApplicationEventPublisherAware,
-    DomainEventPublisher {
+    DomainEventPublisher<DomainEvent> {
 
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -17,7 +17,6 @@ public class ApplicationDomainEventPublisher implements
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
-
 
     @Override
     public void publish(DomainEvent event) {

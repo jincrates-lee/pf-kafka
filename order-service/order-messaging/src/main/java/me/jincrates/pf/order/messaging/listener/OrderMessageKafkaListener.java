@@ -32,7 +32,7 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
         @Header(KafkaHeaders.OFFSET) List<Long> offsets
     ) {
         log.info(
-            "주문 응답 {}건을 수신하였습니다. keys: {}, partitions: {}, offsets: {}",
+            "주문 토픽(commerce.order)에서 {}건을 수신하였습니다. keys: {}, partitions: {}, offsets: {}",
             messages.size(), keys.toString(), partitions.toString(), offsets.toString());
 
         ObjectMapper objectMapper = new ObjectMapper();
