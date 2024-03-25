@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.consumer.KafkaConsumer;
 import me.jincrates.pf.kafka.domain.TopicMessage;
-import me.jincrates.pf.order.domain.core.event.OrderAction;
+import me.jincrates.pf.order.domain.core.event.OrderCancelledEvent;
+import me.jincrates.pf.order.domain.core.event.OrderCompletedEvent;
+import me.jincrates.pf.order.domain.core.event.OrderCreatedEvent;
 import me.jincrates.pf.order.domain.core.event.OrderEvent;
 import me.jincrates.pf.order.domain.service.port.input.OrderEventListener;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -43,7 +45,7 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
                 TopicMessage topicMessage = objectMapper.readValue(message, TopicMessage.class);
                 OrderEvent event = objectMapper.convertValue(topicMessage.getData(),
                     OrderEvent.class);
-                processOrderResponse(topicMessage.getAction(), event);
+                processOrderEvent(topicMessage.getAction(), event);
             } catch (Exception ex) {
                 log.error("주문 처리 중 오류 발생. 메시지 keys: {}. 예외 정보: {}",
                     keys, ex.getMessage());
@@ -51,16 +53,30 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
         });
     }
 
-    private void processOrderResponse(String action, OrderEvent event) {
-        OrderAction orderAction;
-        try {
-            orderAction = OrderAction.valueOf(action);
-            log.info("{} 처리 중, 주문 ID: {}", orderAction.getValue(),
-                event.getOrder().getId().getValue().toString());
-            orderAction.process(event, orderEventListener);
-        } catch (IllegalArgumentException ex) {
-            throw new RuntimeException("잘못된 액션입니다. action: " + action
-                + ", orderId: " + event.getOrder().getId().getValue().toString(), ex);
+
+    private void processOrderEvent(String action, OrderEvent event) {
+        switch (action) {
+            case "PENDING":
+                log.info("대기 중인 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                orderEventListener.orderCreated(new OrderCreatedEvent(event.getOrder(),
+                    event.getCreatedAt()));
+                break;
+            case "COMPLETED":
+                log.info("완료된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                orderEventListener.orderCompleted(new OrderCompletedEvent(event.getOrder(),
+                    event.getCreatedAt()));
+                break;
+            case "CANCELLED":
+                log.info("취소된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                orderEventListener.orderCancelled(new OrderCancelledEvent(event.getOrder(),
+                    event.getCreatedAt()));
+                break;
+            case "FAILED":
+                log.info("실패한 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                break;
+            default:
+                log.error("알 수 없는 주문 상태입니다! 주문 ID: {}", event.getOrder().getId().getValue());
+                break;
         }
     }
 }
