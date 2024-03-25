@@ -29,6 +29,8 @@
 ### 3. After Commit 보장
 - 2가지 방법을 구현해보았습니다.
 #### 3.1. Transaction 서비스 분리 - [예제1](https://github.com/jincrates-lee/pf-kafka/blob/main/order-service/order-domain/src/main/java/me/jincrates/pf/order/domain/service/OrderServiceImpl.java)
+- 장점: 상대적으로 간편하게 처리 가능
+- 단점: after_commit이 직관적이지 않음
 ```java
 // 예제1. Transaction 서비스 분리
 // 1) 트랜잭션을 달지 않는다!
@@ -75,8 +77,8 @@ public class OrderServiceHelper {
 ``` 
 
 #### 3.2. TransactionListener 사용 - [예제2](https://github.com/jincrates-lee/pf-kafka/blob/main/order-service/order-domain/src/main/java/me/jincrates/pf/order/domain/service/OrderServiceImplV2.java)
-
-### 4. 전송 실패 레코드 등록 보장 
+- 장점: after_commit가 명시적으로 보장됨
+- 단점: 관리 클래스가 늘어남
 ```java
 @Primary
 @Slf4j
@@ -139,6 +141,8 @@ public class OrderEventApplicationListener {
     // ....
 }
 ```
+### 4. 전송 실패 레코드 등록 보장 
+
 
 
 ## API Sample
