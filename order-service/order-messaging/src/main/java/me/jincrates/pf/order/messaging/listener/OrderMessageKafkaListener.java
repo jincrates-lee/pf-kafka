@@ -62,17 +62,17 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
                     event.getCreatedAt()));
                 break;
             case "COMPLETED":
-                log.info("완료된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                log.info("완료 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 orderEventListener.orderCompleted(new OrderCompletedEvent(event.getOrder(),
                     event.getCreatedAt()));
                 break;
             case "CANCELLED":
-                log.info("취소된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                log.info("취소 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 orderEventListener.orderCancelled(new OrderCancelledEvent(event.getOrder(),
                     event.getCreatedAt()));
                 break;
             case "FAILED":
-                log.info("실패한 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+                log.info("실패 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 break;
             default:
                 log.error("알 수 없는 주문 상태입니다! 주문 ID: {}", event.getOrder().getId().getValue());
