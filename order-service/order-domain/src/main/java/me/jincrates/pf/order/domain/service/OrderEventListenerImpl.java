@@ -40,14 +40,14 @@ public class OrderEventListenerImpl implements OrderEventListener {
 
     @Override
     public void orderCancelled(OrderCancelledEvent event) {
-        log.info("Cancelling order for orderId: {}",
-            event.getOrder().getId().getValue().toString());
+        String orderId = event.getOrder().getId().getValue().toString();
+        log.info("주문 취소 이벤트 처리 orderId: {}", orderId);
     }
 
     @Override
     public void orderCompleted(OrderCompletedEvent event) {
-        log.info("Completing order for orderId: {}",
-            event.getOrder().getId().getValue().toString());
+        String orderId = event.getOrder().getId().getValue().toString();
+        log.info("주문 완료 이벤트 처리 orderId: {}", orderId);
     }
 
     private Order findOrder(String orderId) {
