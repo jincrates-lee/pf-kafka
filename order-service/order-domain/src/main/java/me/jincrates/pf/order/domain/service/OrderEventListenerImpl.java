@@ -27,10 +27,14 @@ public class OrderEventListenerImpl implements OrderEventListener {
     @Override
     @Transactional
     public void orderCreated(OrderCreatedEvent event) {
-        log.info("Creating order for orderId: {}", event.getOrder().getId().getValue().toString());
-        Order order = findOrder(event.getOrder().getId().getValue().toString());
+        String orderId = event.getOrder().getId().getValue().toString();
+        log.info("주문 생성 이벤트 처리 orderId: {}", orderId);
+        Order order = findOrder(orderId);
         OrderCompletedEvent completedEvent = orderDomainService.completeOrder(order);
+        log.info("주문 데이터 업데이트를 요청합니다. orderId: {}, status: {}", orderId,
+            completedEvent.getOrder().getOrderStatus());
         updateOrder(completedEvent.getOrder());
+        log.info("주문 완료 이벤트 발행을 요청합니다. orderId: {}", orderId);
         domainEventPublisher.publish(completedEvent);
     }
 

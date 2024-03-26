@@ -32,9 +32,13 @@ public class OrderServiceImplV2 implements OrderService {
     @Override
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
+
         Order order = orderMapper.toDomain(request);
         OrderCreatedEvent event = orderDomainService.createOrder(order);
+        log.info("주문 데이터 저장을 요청합니다. orderId: {}", event.getOrder().getId().getValue());
         saveOrder(event.getOrder());
+
+        log.info("주문 생성 이벤트 발행을 요청합니다. event: {}", event);
         domainEventPublisher.publish(event);
         return orderMapper.toResponse(event.getOrder());
     }

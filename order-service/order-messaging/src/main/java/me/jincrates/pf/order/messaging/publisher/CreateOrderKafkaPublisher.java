@@ -21,7 +21,7 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
     @Override
     public void publish(OrderCreatedEvent event) {
         String orderId = event.getOrder().getId().getValue().toString();
-        log.info("Received OrderCreatedEvent for orderId: {}", orderId);
+        log.info("주문 생성 이벤트(OrderCreatedEvent)를 카프카 프로듀서에 전송합니다. orderId: {}", orderId);
 
         try {
             TopicMessage message = TopicMessage.builder()

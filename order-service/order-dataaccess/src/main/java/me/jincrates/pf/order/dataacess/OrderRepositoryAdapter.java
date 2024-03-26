@@ -21,12 +21,14 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Override
     public Order save(Order order) {
+        log.info("주문 데이터를 저장합니다. orderId: {}", order.getId().getValue());
         OrderEntity entity = orderJpaRepository.save(orderDataAccessMapper.toEntity(order));
         return orderDataAccessMapper.toDomain(entity);
     }
 
     @Override
     public Optional<Order> findById(OrderId id) {
+        log.info("주문 데이터를 조회합니다. orderId: {}", id.getValue());
         return orderJpaRepository.findById(id.getValue())
             .map(orderDataAccessMapper::toDomain);
     }

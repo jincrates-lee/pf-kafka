@@ -55,19 +55,20 @@ public class OrderMessageKafkaListener implements KafkaConsumer<String> {
 
 
     private void processOrderEvent(String action, OrderEvent event) {
+        //OrderAction orderAction = OrderAction.valueOf(action);
         switch (action) {
-            case "PENDING":
-                log.info("대기 중인 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+            case "ORDER_CREATED":
+                log.info("생성된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 orderEventListener.orderCreated(new OrderCreatedEvent(event.getOrder(),
                     event.getCreatedAt()));
                 break;
-            case "COMPLETED":
-                log.info("완료 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+            case "ORDER_COMPLETED":
+                log.info("완료된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 orderEventListener.orderCompleted(new OrderCompletedEvent(event.getOrder(),
                     event.getCreatedAt()));
                 break;
-            case "CANCELLED":
-                log.info("취소 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
+            case "ORDER_CANCELLED":
+                log.info("취소된 주문 처리 중. 주문 ID: {}", event.getOrder().getId().getValue());
                 orderEventListener.orderCancelled(new OrderCancelledEvent(event.getOrder(),
                     event.getCreatedAt()));
                 break;

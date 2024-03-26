@@ -23,16 +23,22 @@ public class OrderEventApplicationListener {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void process(OrderCreatedEvent event) {
+        log.info("주문 생성 이벤트(OrderCreatedEvent) AFTER_COMMIT - orderId: {}",
+            event.getOrder().getId().getValue());
         orderCreatedEventPublisher.publish(event);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void process(OrderCancelledEvent event) {
+        log.info("주문 취소 이벤트(OrderCancelledEvent) AFTER_COMMIT - orderId: {}",
+            event.getOrder().getId().getValue());
         orderCancelledEventPublisher.publish(event);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void process(OrderCompletedEvent event) {
+        log.info("주문 완료 이벤트(OrderCompletedEvent) AFTER_COMMIT - orderId: {}",
+            event.getOrder().getId().getValue());
         orderCompletedEventPublisher.publish(event);
     }
 }

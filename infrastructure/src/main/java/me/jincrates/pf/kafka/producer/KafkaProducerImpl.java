@@ -20,7 +20,7 @@ public class KafkaProducerImpl<T> implements KafkaProducer {
 
     @Override
     public void send(String topic, String key, TopicMessage message) {
-        log.info("Sending to topic = {}, from message: {}", topic, message);
+        log.info("카프카 프로듀서 메시지 전송! to topic = {}, from message: {}", topic, message);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());

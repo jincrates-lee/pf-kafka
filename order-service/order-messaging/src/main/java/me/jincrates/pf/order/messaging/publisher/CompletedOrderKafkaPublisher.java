@@ -21,7 +21,7 @@ public class CompletedOrderKafkaPublisher implements OrderCompletedEventPublishe
     @Override
     public void publish(OrderCompletedEvent event) {
         String orderId = event.getOrder().getId().getValue().toString();
-        log.info("Received OrderCompletedEvent for orderId: {}", orderId);
+        log.info("주문 완료 이벤트(OrderCompletedEvent)를 카프카 프로듀서에 전송합니다. orderId: {}", orderId);
 
         try {
             TopicMessage message = TopicMessage.builder()
