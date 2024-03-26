@@ -205,5 +205,19 @@ public class KafkaProducerImpl<T> implements KafkaProducer {
 
 ## API Sample
 
-- docs/rest.http
+- [docs/rest.http](docs/rest.http)
 
+```curl
+### 주문 생성
+curl --location 'http://localhost:9090/api/v1/orders' \
+--header 'Content-Type: application/json' \
+--data '{
+  "price": 1000
+}'
+
+### 주문 조회
+curl --location 'http://localhost:9090/api/v1/orders/{orderId}'
+
+### 주문 취소
+curl --location --request PUT 'http://localhost:9090/api/v1/orders/{orderId}/cancel'
+```
