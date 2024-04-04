@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 주문 조회
-@orderId = 852f0917-47c0-49e1-bcaf-050333f8456f
+@orderId = 6b433378-dae4-4fb0-b3ba-2fc7e7d0a157
 GET http://localhost:9090/api/v1/orders/{{orderId}}
 
 ### 주문 취소

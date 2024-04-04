@@ -8,4 +8,5 @@ public class OrderCreatedEvent extends OrderEvent {
     public OrderCreatedEvent(Order order, LocalDateTime createdAt) {
         super(order, createdAt);
     }
+
 }
