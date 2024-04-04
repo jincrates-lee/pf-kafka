@@ -1,8 +1,11 @@
 dependencies {
-  implementation project(":infrastructure")
-  implementation project(":order-service:order-domain")
+    implementation project(":infrastructure")
+    implementation project(":order-service:order-domain")
 
-  implementation("org.springframework.kafka:spring-kafka:${kafkaVersion}")
-  implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
-  implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatabindVersion}"
+    implementation("org.springframework.kafka:spring-kafka:${kafkaVersion}")
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatabindVersion}"
+    // Provides the documentation API
+    implementation "io.github.springwolf:springwolf-kafka:${springWolfVersion}"
+    implementation "io.swagger.core.v3:swagger-core:${swaggerCoreVersion}"
 }

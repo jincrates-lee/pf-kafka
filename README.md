@@ -131,8 +131,8 @@ public class OrderServiceImplV2 implements OrderService {
 @Slf4j
 @Component
 public class ApplicationDomainEventPublisher implements
-        ApplicationEventPublisherAware,
-        DomainEventPublisher<DomainEvent> {
+    ApplicationEventPublisherAware,
+    DomainEventPublisher<DomainEvent> {
 
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -190,7 +190,7 @@ public class KafkaProducerImpl<T> implements KafkaProducer {
             kafkaTemplate.send(topic, key, messageStr);
         } catch (KafkaException | JsonProcessingException ex) {
             log.error("Error on kafka producer with key: {}, message: {}, and exception: {}", key,
-                    message, ex.getMessage());
+                message, ex.getMessage());
             throw new RuntimeException("카프카 메시지 발송 오류! - 전송 실패 오류 레코드 등록");
         }
     }
@@ -224,3 +224,7 @@ curl --location 'http://localhost:9090/api/v1/orders/{orderId}'
 ### 주문 취소
 curl --location --request PUT 'http://localhost:9090/api/v1/orders/{orderId}/cancel'
 ```
+
+## Springwolf
+
+/springwolf/asyncapi-ui.html

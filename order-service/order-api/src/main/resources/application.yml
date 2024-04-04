@@ -2,8 +2,12 @@ server:
   port: 9090
 
 spring:
+  application:
+    name: order-service
+    version: 1.0.0
   profiles:
     default: local
+
 
   config:
     import:
@@ -14,3 +18,13 @@ logging:
   level:
     org.apache.kafka: off
 
+springwolf:
+  docket:
+    base-package: me.jincrates.pf
+    info:
+      title: ${spring.application.name}
+      version: ${spring.application.version}
+    servers:
+      kafka:
+        protocol: kafka
+        host: ${kafka-config.bootstrap-servers}

@@ -1,14 +1,18 @@
 dependencies {
-  implementation project(":order-service:order-domain")
-  implementation project(":order-service:order-dataaccess")
-  implementation project(":order-service:order-messaging")
+    implementation project(":order-service:order-domain")
+    implementation project(":order-service:order-dataaccess")
+    implementation project(":order-service:order-messaging")
 
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation "org.springframework.kafka:spring-kafka:${kafkaVersion}"
-  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.kafka:spring-kafka:${kafkaVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    // Provides the documentation API
+    implementation "io.github.springwolf:springwolf-kafka:${springWolfVersion}"
 
-  compileOnly project(":infrastructure")
-  runtimeOnly "com.h2database:h2:${h2DatabaseVersion}"
+    compileOnly project(":infrastructure")
+    runtimeOnly "com.h2database:h2:${h2DatabaseVersion}"
+    // Provides the UI - optional (recommended)
+    runtimeOnly "io.github.springwolf:springwolf-ui:${springWolfVersion}"
 
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
