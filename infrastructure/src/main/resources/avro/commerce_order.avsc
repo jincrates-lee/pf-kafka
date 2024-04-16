@@ -1,0 +1,32 @@
+{
+  "type": "record",
+  "name": "CommerceOrderArvoModel",
+  "namespace": "me.jincrates.pf.kafka.domain.avro.model",
+  "fields": [
+    {
+      "name": "id",
+      "type": {
+        "type": "record",
+        "name": "OrderId",
+        "fields": [
+          {
+            "name": "value",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "orderStatus",
+      "type": {
+        "type": "enum",
+        "name": "OrderStatus",
+        "symbols": ["PENDING", "COMPLETED", "CANCELLED"]
+      }
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ]
+}
