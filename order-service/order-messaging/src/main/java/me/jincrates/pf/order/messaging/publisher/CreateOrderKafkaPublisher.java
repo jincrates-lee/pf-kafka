@@ -1,5 +1,8 @@
 package me.jincrates.pf.order.messaging.publisher;
 
+import io.github.springwolf.core.asyncapi.annotations.AsyncOperation;
+import io.github.springwolf.core.asyncapi.annotations.AsyncPublisher;
+import io.github.springwolf.plugins.kafka.asyncapi.annotations.KafkaAsyncOperationBinding;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jincrates.pf.kafka.domain.TopicMessage;
@@ -18,6 +21,13 @@ public class CreateOrderKafkaPublisher implements OrderCreatedEventPublisher {
 
     private String topic = "commerce.order";
 
+    @AsyncPublisher(
+        operation = @AsyncOperation(
+            channelName = "commerce.order",
+            description = "More details for the outgoing topic"
+        )
+    )
+    @KafkaAsyncOperationBinding  // Kafka 태깅이 붙음
     @Override
     public void publish(OrderCreatedEvent event) {
         String orderId = event.getOrder().getId().getValue().toString();

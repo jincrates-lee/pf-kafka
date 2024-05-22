@@ -5,7 +5,10 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka:${kafkaVersion}")
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatabindVersion}"
-    // Provides the documentation API
-    implementation "io.github.springwolf:springwolf-kafka:${springWolfVersion}"
+
     implementation "io.swagger.core.v3:swagger-core:${swaggerCoreVersion}"
+    // springwolf
+    implementation "io.github.springwolf:springwolf-kafka:${springWolfVersion}"
+    runtimeOnly "io.github.springwolf:springwolf-ui:${springWolfVersion}"
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 }
